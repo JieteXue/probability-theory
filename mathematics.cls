@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{probability-theory}[2026/09/28 Probability Theory document class]
+\ProvidesClass{mathematics}[2026/09/28 Mathematics document class]
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions\relax
@@ -269,26 +269,30 @@
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{3}
 
-\newcommand{\makeprobabilitytitle}{%
+\makeatletter
+\newcommand{\makefrontmatter}{%
     \hypersetup{pageanchor=false}%
     \pagecolor{green!2}%
     \begin{titlebox}
         \begin{center}
             \Huge
-            Probability Theory
+            \@title\par
+            \vfill
+            \large
+            \@author\par
+            \@date
         \end{center}
     \end{titlebox}%
     \pagestyle{empty}%
     \newpage
     \nopagecolor
     \pagenumbering{roman}%
-    \maketitle
-    \pagestyle{headings}%
-    \pagenumbering{roman}%
     \setcounter{page}{1}%
     \tableofcontents
     \clearpage
+    \pagestyle{headings}%
     \hypersetup{pageanchor=true}%
     \pagenumbering{arabic}%
     \setcounter{page}{1}%
 }
+\makeatother

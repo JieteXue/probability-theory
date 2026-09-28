@@ -1,0 +1,123 @@
+\chapter{Events and Probability}
+
+\section{Events as Sets}
+
+\begin{definitionbox}
+    The set of all possible outcomes of an experiment is called the \textbf{sample space} and is denoted by $\Omega$.
+\end{definitionbox}
+
+\begin{definitionbox}[$\sigma$-algebras]
+    Let $\Omega$ be a set. A $\sigma$-algebra on $\Omega$ is a collection
+    $\mathcal{F}\subseteq \mathscr{P}(\Omega)$ such that
+    \begin{enumerate}[label=(\alph*)]
+        \item for any $I$ countable, $(A_i)_{i\in I}\in \mathcal{F}^{I}$, then
+        $$\bigcup_{i \in I} A_i \in \mathcal{F};$$
+        \item if $A \in \mathcal{F}$, then $\Omega\setminus A \in \mathcal{F}$.
+    \end{enumerate}
+    Note that (a) implies $\varnothing \in \mathcal{F}$; together with (b),
+    this also gives $\Omega \in \mathcal{F}$.
+    $$\bigcap_{i\in I} A_i= \Omega \setminus \left(\bigcup_{i\in I}\left(\Omega\setminus A_i\right)\right)\in \mathcal{F}.$$
+\end{definitionbox}
+
+\begin{propositionbox}
+    Let $\Omega$ be a set and let $J\neq\varnothing$. If
+    $(\mathcal{A}_{j})_{j\in J}$ is a family of $\sigma$-algebras on
+    $\Omega$, then
+    $$\mathcal{A}\coloneq \bigcap_{j\in J}\mathcal{A}_j$$
+    is a $\sigma$-algebra on $\Omega$.
+\end{propositionbox}
+\begin{proofbox}
+    Let $(A_i)_{i\in I}\in \mathcal{A}^I$. $\forall j\in J$, $(A_i)_{i\in I}\in \mathcal{A}_j^I$, so $\bigcup_{i\in I} A_i\in \mathcal{A}_j$ and hence
+    $$ \bigcup_{i\in I} A_i\in \bigcap_{j\in J}\mathcal{A}_j=\mathcal{A}.$$
+    $A\in \mathcal{A}$, so $\forall j\in J$, $A\in \mathcal{A}_j$, so $\Omega\setminus A\in A_j$ and hence
+    $$ \Omega\setminus A\in \bigcap_{j\in J} \mathcal{A}_j =\mathcal{A}.$$
+\end{proofbox}
+
+\begin{definitionbox}
+    Let $\Omega$ be a sample space and $\mathcal{F}$ be a $\sigma$-algebra on $\Omega$. 
+    Any element in $\mathcal{F}$ is called an event.
+\end{definitionbox}
+
+\section{Probability}
+
+\begin{definitionbox}[probability space]
+    Given $(\Omega, \mathcal{F})$, a probability measure $\PP$ on $(\Omega, \mathcal{F})$ is a function
+    $$\PP: \mathcal{F}\to [0,1]$$
+    such that 
+    \begin{enumerate}[label=(\alph*)]
+        \item $\PP(\Omega) = 1$;
+        \item if $I$ is countable and $(A_i)_{i \in I}$ is family of disjoint elements of $\mathcal{F}$, then
+        $$\PP\left(\bigcup_{i \in I} A_i\right) = \sum_{i \in I} \PP(A_i).$$
+    \end{enumerate}
+    Note that
+    $$1 = \PP(\Omega) = \PP(A \cup (\Omega \setminus A)) = \PP(A) + \PP(\Omega \setminus A).$$
+    
+    The triple $(\Omega, \mathcal{F}, \PP)$ is called a \textbf{probability space}.
+\end{definitionbox}
+
+\begin{lemmabox}
+    $$\PP(A \cup B) = \PP(A) + \PP(B) - \PP(A \cap B).$$
+\end{lemmabox}
+\begin{proofbox}
+    Since $A \cup B = A \cup (B \setminus A)$ and $B = (B \setminus A) \cup (B \cap A)$,
+    $$\PP(A \cup B) = \PP(A) + \PP(B \setminus A) = \PP(A) + \PP(B) - \PP(A \cap B).$$
+\end{proofbox}
+
+\begin{lemmabox}[inclusion-exclusion principle]
+    Let $(A_i)_{i=1}^{n}$ be a family of events, then
+    $$\begin{aligned}
+        \PP\left(\bigcup_{i=1}^{n}A_i\right) = & \sum_{i=1}^{n} \PP(A_i) - \sum_{i<j} \PP(A_{i} \cap A_{j})\\ + & \sum_{i < j < k}\PP(A_{i} \cap A_{j} \cap A_{k}) - \cdots + (-1)^{n + 1}\PP(A_1 \cap \cdots \cap A_{n}).
+    \end{aligned}$$
+\end{lemmabox}
+\begin{proofbox}
+    Reason by induction on $n$.
+\end{proofbox}
+
+\begin{theorembox}[continuity of probability]
+    Let $\mathcal{F}$ be a $\sigma$-algebra on $\Omega$.
+    \begin{enumerate}
+        \item if $(A_n)_{n\in \NN}$ is an increasing sequence in $\mathcal{F}$, then
+        $$\lim_{n \rightarrow +\infty} \PP(A_n) = \PP(\bigcup_{n \in \NN} A_n);$$
+        \item if $(B_n)_{n\in \NN}$ is a decreasing sequence in $\mathcal{F}$, then
+        $$\lim_{n \rightarrow +\infty} \PP(B_n) = \PP(\bigcap_{n \in \NN} B_n).$$
+    \end{enumerate}
+\end{theorembox}
+\begin{proofbox}
+    Let $C_n = A_n \setminus A_{n-1}$, $B_0, B_1, \cdots, B_n$ are pairwise disjoint and $B_0 = A_0$.
+    $$A_n = \bigcup_{k = 0}^{n} C_{k}, \, \PP(A_n) = \sum_{k = 0}^{n} \PP(C_k).$$
+    So,
+    $$\lim_{n \rightarrow +\infty} \PP(A_n) = \lim_{n \rightarrow +\infty} \sum_{k = 0}^{n} \PP(C_k) = \PP(\bigcup_{n \in \NN} C_n) = \PP(\bigcup_{n \in \NN} A_n).$$
+\end{proofbox}
+
+\begin{remarkbox}
+    Let $(A_n)_{n\in \NN}$ be a sequence in $\mathcal{F}$.
+    Then $B_n \coloneq \dis \bigcup_{k \ge n} A_k$ is decreasing and converges to
+    $$\bigcap_{n \ge 1} \bigcup_{k \ge n} A_{k} = \limsup_{k \rightarrow +\infty} A_{k}.$$
+    $C_n \coloneq \dis \bigcap_{k \ge n} A_{k}$ is increasing and converges to
+    $$\bigcup_{n \ge 1} \bigcap_{k \ge n} A_{k} = \liminf_{k \rightarrow +\infty} A_{k}.$$
+\end{remarkbox}
+
+\begin{propositionbox}
+    Let $(B_n)_{n \in \NN}$ be a sequence in $\mathcal{F}$ that is pairwise disjoint and $\dis \bigcup_{n \in \NN} B_n =\Omega$
+    are such that $\PP(B_{k}) > 0$ for any $k \in \NN$.
+    Then,
+    $$\PP(A) = \sum_{k \in \NN} \PP(A \mid B_{k}) \PP(B_{k}).$$
+\end{propositionbox}
+
+\begin{definitionbox}[Independence]
+    We say that $A$ and $B$ are \textbf{independent} if
+    $$\PP(A \cap B) = \PP(A) \PP(B).$$
+    
+    We say that $A_1, \cdots, A_n, \cdots$ are independent if for any $k_1, \cdots, k_m$, we have
+    $$\PP\left(\bigcap_{j = 1}^{m} A_{k_j}\right) = \prod_{j = 1}^{m} \PP(A_{k_j}).$$
+\end{definitionbox}
+
+\begin{propositionbox}[Borel-Cantelli]
+    \quad
+    \begin{enumerate}
+        \item If $\sum_{n \in \NN} \PP(A_{n}) < +\infty$, then
+        $$\PP(\limsup_{n \rightarrow +\infty} A_n) = 0.$$
+        \item If $\sum_{n \in \NN} \PP(A_{n}) = +\infty$, and $A_n$'s are independent, then
+        $$\PP(\limsup_{n \rightarrow +\infty} A_n) = 1.$$
+    \end{enumerate}
+\end{propositionbox}

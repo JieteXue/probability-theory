@@ -1,0 +1,11 @@
+/build/
+/brief-notes/
+*.pdf
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+.DS_Store

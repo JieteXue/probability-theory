@@ -1,0 +1,280 @@
+\chapter{Random Variables and Their Distributions}
+
+\section{Random variables}
+
+\begin{definitionbox}
+    A \emph{random variable} is an $\mathcal{F}$-measurable mapping
+    $$X : \Omega \longrightarrow \RR.$$
+    Namely, for any open set $A \subset \RR$, $X^{-1}(A) \in \mathcal{F}$.
+\end{definitionbox}
+
+\begin{definitionbox}
+    \quad
+    \begin{enumerate}
+        \item For $p \in [0,1]$, $X \sim \mathrm{Ber}(p)$ if $$\PP(X = 1) = p,\ \PP(X = 0) = 1 - p.$$
+        \item $X \sim \Bin(n,p)$ if $$\PP(X = k) = \binom{n}{k} p^k (1 - p)^{n-k},\ k = 0,1,\ldots,n.$$
+        \item $X \sim \Pois(\lambda)$ if $$\PP(X = k) = \frac{\lambda^k}{k!} e^{-\lambda},\ k = 0,1,2,\ldots.$$
+        \item $X \sim \Geo(p)$ if $$\PP(X = k) = (1 - p)^{k-1} p,\ k = 1,2,\ldots.$$
+    \end{enumerate}
+\end{definitionbox}
+\begin{remarkbox}
+    \quad
+    \begin{enumerate}
+        \item $\Pois(\lambda)$ is the limit of $\Bin(n, \frac{\lambda}{n})$ as $n \to \infty$.
+        \item For $X \sim \Geo(p)$, we have $\PP(X > k) = (1 - p)^k$.
+    \end{enumerate}
+\end{remarkbox}
+
+\begin{propositionbox}[memoryless property of geometric distribution]
+    $$\PP(X > m + n \mid X > m) = \PP(X > n).$$
+\end{propositionbox}
+\begin{proofbox}
+    By definition.
+\end{proofbox}
+
+\begin{definitionbox}
+    Let $X$ be a random variable.
+    The \emph{distribution function} of $X$ is the function:
+    $$\begin{array}{rrcl}
+        F : & \RR & \longrightarrow & [0,1] \\
+        & x & \longmapsto & \PP(X \leq x).
+    \end{array}$$
+    If $F$ is differentiable, then its derivative $f = F'$ is called the
+    \emph{density function} of $X$.
+\end{definitionbox}
+\begin{remarkbox}
+    Note that $F$ is right-continuous.
+\end{remarkbox}
+
+\begin{definitionbox}
+    \quad
+    \begin{enumerate}
+        \item $X \sim \Unif(a,b)$ if $$f(x) = \frac{1}{b-a} \mathbbm{1}_{[a,b]}(x).$$
+        \item $X \sim \Expo(\lambda)$ if $$f(x) = \lambda e^{-\lambda x} \mathbbm{1}_{[0,\infty)}(x).$$
+        \item $X \sim \mathcal{N}(\mu,\sigma^2)$ if $$f(x) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}}.$$
+    \end{enumerate}
+\end{definitionbox}
+\begin{remarkbox}
+    For $X \sim \Expo(\lambda)$, $\PP(X > t) = e^{-\lambda t}$.
+    It has the memoryless property: $\PP(X > s + t \mid X > s) = \PP(X > t)$.
+\end{remarkbox}
+
+\section{Expectation and variance}
+
+\begin{definitionbox}
+    Let $X$ be a random variable.
+    The \emph{expectation} of $X$ is
+    $$\EE(X) = \int_{\RR} xf(x)\, dx.$$
+    The \emph{variance} of $X$ is
+    $$\Var(X) = \EE(X - \EE(X))^2 = \EE(X^2) - (\EE(X))^2.$$
+\end{definitionbox}
+\begin{remarkbox}
+    By Jensen's inequality, if $J: \RR \rightarrow \RR$ is convex, then
+    $$J(\EE(X)) \leq \EE(J(X)).$$
+    In particular, if $p \ge 1$, then
+    $$\EE(X^p) \geq \left(\EE(X)\right)^p.$$
+\end{remarkbox}
+
+\begin{definitionbox}
+    $X$ and $Y$ are \emph{independent} if for any sets $A,B \subset \RR$, we have
+    $$\PP(X \in A, Y \in B) = \PP(X \in A) \PP(Y \in B).$$
+    We denote this as $X \perp Y$.
+
+    We say that $X_1,\ldots, X_n$ are independent if for any sets $A_1,\ldots, A_n \subset \RR$, we have
+    $$\PP(X_1 \in A_1, \ldots, X_n \in A_n) = \PP(X_1 \in A_1) \cdots \PP(X_n \in A_n).$$
+\end{definitionbox}
+
+\begin{propositionbox}
+    Let $(X,Y)$ be a discrete random vector, then $X \perp Y$ if and only if
+    $$\PP(X = x, Y = y) = \PP(X = x) \PP(Y = y),\ \forall x,y.$$
+\end{propositionbox}
+
+\begin{propositionbox}
+    If $X \perp Y$, then
+    $$\Var(X + Y) = \Var(X) + \Var(Y).$$
+\end{propositionbox}
+\begin{proofbox}
+    $$\begin{aligned}
+        \Var(X + Y) &= \EE\left((X - \mu_1) + (Y - \mu_2)\right)^2 \\
+        & = \EE(X - \mu_1)^2 + \EE(Y - \mu_2)^2 + 2\EE[(X - \mu_1)(Y - \mu_2)] \\
+        & = \Var(X) + \Var(Y) + 2\EE(X - \mu_1)\EE(Y - \mu_2)\\
+        & = \Var(X) + \Var(Y).
+    \end{aligned}$$
+\end{proofbox}
+
+\begin{theorembox}[H\"older]
+    If $p,q \in [1,+\infty]$ with $\frac{1}{p} + \frac{1}{q} = 1$, then
+    $$\EE(|XY|) \leq \left(\EE(|X|^p)\right)^{\frac{1}{p}} \left(\EE(|Y|^q)\right)^{\frac{1}{q}}.$$
+\end{theorembox}
+
+\begin{definitionbox}[Covariance]
+    Let $X$ and $Y$ be two random variables. The \emph{covariance} of $X$ and $Y$ is
+    $$\Cov(X,Y) = \EE\left((X - \EE(X))(Y - \EE(Y))\right) = \EE(XY) - \EE(X)\EE(Y).$$
+
+    Let $X_1, \ldots, X_n$ be random variables. The \emph{covariance matrix} of $(X_1, \ldots, X_n)$ is
+    $$\Sigma = \begin{pmatrix}
+        \Cov(X_1, X_1) & \Cov(X_1, X_2) & \cdots & \Cov(X_1, X_n) \\
+        \Cov(X_2, X_1) & \Cov(X_2, X_2) & \cdots & \Cov(X_2, X_n) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \Cov(X_n, X_1) & \Cov(X_n, X_2) & \cdots & \Cov(X_n, X_n)
+    \end{pmatrix}.$$
+\end{definitionbox}
+
+\begin{propositionbox}
+    Let $X_1, \ldots, X_n$ be random variables. Then the covariance matrix $\Sigma$ is symmetric and positive semi-definite.
+\end{propositionbox}
+\begin{proofbox}
+    Since $\Cov(X_i, X_j) = \Cov(X_j, X_i)$, we only need to show that the covariance matrix is positive semi-definite.
+    Let $a = (a_1, \ldots, a_n)^T \in \RR^n$. Then
+    $$\begin{aligned}
+        a^T \Sigma a &= \sum_{i,j=1}^{n} a_i a_j \Cov(X_i, X_j) \\
+        &= \sum_{i,j=1}^{n} a_i a_j \EE\left((X_i - \EE(X_i))(X_j - \EE(X_j))\right) \\
+        &= \EE\left(\sum_{i=1}^{n} a_i (X_i - \EE(X_i))\right)^2 \\
+        &\geq 0.
+    \end{aligned}$$
+\end{proofbox}
+
+\begin{definitionbox}[Multivariate normal distribution]
+    Let $X_1, \ldots, X_n$ be random variables. The vector
+    $(X_1, \ldots, X_n)$ is said to have a \emph{multivariate normal
+    distribution} if its probability density function is given by
+    $$f(x_1, \ldots, x_n) = \frac{1}{(2\pi)^{n/2}|\det \Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x - \mu)^T \Sigma^{-1} (x - \mu)\right),$$
+    where $\mu = (\mu_1, \ldots, \mu_n)^T$ is the mean vector and $\Sigma$ is the covariance matrix.
+
+    We denote this as $(X_1, \ldots, X_n) \sim \mathcal{N}(\mu, \Sigma)$.
+
+    In particular, if $X_1, \ldots, X_n$ are pairwise independent, then
+    $\Sigma$ is diagonal and the density function simplifies to
+    $$f(x_1, \ldots, x_n) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi}\sigma_i} \exp\left(-\frac{(x_i - \mu_i)^2}{2\sigma_i^2}\right),$$
+    where $\sigma_i^2 = \Var(X_i)$.
+\end{definitionbox}
+
+\begin{theorembox}[Minkowski]
+    Let $(X,\mathcal{X},\mu)$ and $(T,\mathcal{T},\nu)$ be measure spaces, and let
+    $f : T \times X \to \RR$ be measurable. If $1 \leq p \leq \infty$, then
+    $$\left(\int_{X} \left(\int_{T} |f(t,x)| \nu(\dd t)\right)^p \mu(\dd x)\right)^{1/p}
+    \leq \int_{T} \left(\int_{X} |f(t,x)|^p \mu(\dd x)\right)^{1/p} \nu(\dd t),$$
+    where the usual essential supremum interpretation is used when $p=\infty$.
+    Here, the \emph{essential supremum} of a measurable function $g$ is
+    defined by
+    $$\operatorname*{ess\,sup}_{x\in X}|g(x)|
+    =\inf\left\{M\geq 0:
+    \mu\left(\left\{x\in X:|g(x)|>M\right\}\right)=0\right\}.$$
+    Thus, the essential supremum is the smallest upper bound that holds
+    $\mu$-almost everywhere.
+\end{theorembox}
+\begin{proofbox}
+    Write
+    $$H(x) = \int_{T} |f(t,x)|\nu(\dd t).$$
+    The case $p=1$ follows immediately from Tonelli's theorem:
+    $$\begin{aligned}
+        \int_{X} H(x)\mu(\dd x)
+        &= \int_{X}\int_{T}|f(t,x)|\nu(\dd t)\mu(\dd x) \\
+        &= \int_{T}\int_{X}|f(t,x)|\mu(\dd x)\nu(\dd t).
+    \end{aligned}$$
+
+    Suppose now that $1<p<\infty$, and let $q$ be the conjugate exponent,
+    so that $\frac{1}{p}+\frac{1}{q}=1$. If $\|H\|_{L^p(\mu)}=0$, the
+    desired inequality is trivial. Otherwise, Tonelli's theorem and
+    H\"older's inequality give
+    $$\begin{aligned}
+        \|H\|_{L^p(\mu)}^p
+        &= \int_{X} H(x)^{p-1}H(x)\mu(\dd x) \\
+        &= \int_{T}\int_{X}|f(t,x)|H(x)^{p-1}\mu(\dd x)\nu(\dd t) \\
+        &\leq \int_{T}
+        \left(\int_{X}|f(t,x)|^p\mu(\dd x)\right)^{1/p}
+        \left(\int_{X}H(x)^{(p-1)q}\mu(\dd x)\right)^{1/q}
+        \nu(\dd t) \\
+        &= \|H\|_{L^p(\mu)}
+        \int_{T}\left(\int_{X}|f(t,x)|^p\mu(\dd x)\right)^{1/p}\nu(\dd t).
+    \end{aligned}$$
+    Dividing by $\|H\|_{L^p(\mu)}$ proves the result for $1<p<\infty$.
+
+    Finally, when $p=\infty$, for $\nu$-almost every $t$,
+    $$|f(t,x)|\leq \operatorname*{ess\,sup}_{y\in X}|f(t,y)|$$
+    for $\mu$-almost every $x$. Hence
+    $$H(x)\leq \int_{T}\operatorname*{ess\,sup}_{y\in X}|f(t,y)|\nu(\dd t),$$
+    and taking the essential supremum over $x$ yields the desired inequality.
+\end{proofbox}
+
+\begin{theorembox}[Law of large numbers]
+    Let $X_1, X_2, \ldots$ be independent and identically distributed random variables with $\EE(X_i) = \mu$. Then
+    $$\frac{1}{n}\sum_{i=1}^{n} X_i \longrightarrow \mu$$
+    almost surely as $n \to \infty$.
+\end{theorembox}
+
+\begin{theorembox}[Central limit theorem]
+    Let $X_1, X_2, \ldots$ be independent and identically distributed random variables with $\EE(X_i) = \mu$ and $\Var(X_i) = \sigma^2 < \infty$. Then
+    $$\frac{1}{\sqrt{n}}\sum_{i=1}^{n} (X_i - \mu) \longrightarrow \mathcal{N}(0, \sigma^2)$$
+    as $n \to \infty$.
+\end{theorembox}
+
+\begin{definitionbox}
+    Let $(\Omega, \mathcal{F}, \mu)$ be a measure space, and let
+    $\xi_1, \xi_2, \ldots$ and $\xi$ be measurable functions\footnote{$\Omega \rightarrow \RR$} on $\Omega$.
+    We define the following modes of convergence:
+    \begin{enumerate}[label=(\alph*)]
+        \item $\xi_n$ converges to $\xi$ \emph{$\mu$-almost everywhere} if
+        $$\mu\left(\left\{\omega \in \Omega :
+        \lim_{n\to\infty}\xi_n(\omega)=\xi(\omega)\right\}^{c}\right)=0.$$
+        When $\mu$ is a probability measure, $\mu$-almost everywhere
+        convergence is also called \emph{almost sure convergence}.
+
+        \item $\xi_n$ converges to $\xi$ \emph{in measure} if, for every
+        $\varepsilon>0$,
+        $$\mu\left(\left\{\omega\in\Omega:
+        |\xi_n(\omega)-\xi(\omega)|>\varepsilon\right\}\right)
+        \longrightarrow 0.$$
+        When $\mu$ is a probability measure, convergence in measure is also
+        called \emph{convergence in probability}.
+
+        \item Let $1\leq p<\infty$. We say that $\xi_n$ converges to $\xi$
+        \emph{in $L^p(\mu)$} if $\xi_n,\xi\in L^p(\mu)$ and
+        $$\|\xi_n-\xi\|_{L^p(\mu)}
+        =\left(\int_{\Omega}|\xi_n-\xi|^p\mu(\dd\omega)\right)^{1/p}
+        \longrightarrow 0.$$
+
+        \item We say that $\xi_n$ converges to $\xi$ \emph{in
+        $L^\infty(\mu)$} if $\xi_n,\xi\in L^\infty(\mu)$ and
+        $$\|\xi_n-\xi\|_{L^\infty(\mu)}
+        =\operatorname*{ess\,sup}_{\omega\in\Omega}
+        |\xi_n(\omega)-\xi(\omega)|
+        \longrightarrow 0.$$
+    \end{enumerate}
+\end{definitionbox}
+\begin{remarkbox}
+    When $\mu$ is a probability measure,
+    \begin{itemize}
+        \item (a) $\Rightarrow$ (b), (c) $\Rightarrow$ (b);
+        \item (b) $\Rightarrow$ a subsequence of (a) (Riesz theorem).
+    \end{itemize}
+\end{remarkbox}
+
+\begin{propositionbox}
+    Let $X$ be a random variable.
+    Then for any $p \ge 1$ and $\delta > 0$, we have
+    $$\PP(|X| > \delta) \le \frac{\EE(|X|^p)}{\delta^p}.$$
+\end{propositionbox}
+\begin{proofbox}
+    $$\EE(|X|^p) = \int |X|^p \dd \PP \ge \int_{|x| > \delta} |X|^p \dd \PP \ge \delta^p \cdot \PP(|X| > \delta).$$
+\end{proofbox}
+
+\begin{theorembox}[Weak law of large numbers]
+    Let $X_1, X_2, \ldots$ be independent and identically distributed random variables with $\EE(X_i) = \mu$. Then
+    $$\frac{1}{n}\sum_{i=1}^{n} X_i \longrightarrow \mu$$
+    in probability as $n \to \infty$.
+\end{theorembox}
+
+\begin{definitionbox}[Convergence in distribution]
+    Let $\xi_1,\xi_2,\ldots$ and $\xi$ be real-valued random variables.
+    Denote their distribution functions by
+    $$F_n(x)=\PP(\xi_n\leq x),\qquad
+    F(x)=\PP(\xi\leq x),\qquad x\in\RR.$$
+    We say that $\xi_n$ \emph{converges in distribution} (or
+    \emph{in law}) to $\xi$, and write
+    $$\xi_n\Rightarrow\xi,$$
+    if
+    $$\lim_{n\to\infty}F_n(x)=F(x)$$
+    for every continuity point $x$ of $F$.
+    This is also called \emph{weak convergence}.
+\end{definitionbox}

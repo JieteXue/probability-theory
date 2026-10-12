@@ -37,11 +37,16 @@
 \RequirePackage{tcolorbox}
 \tcbuselibrary{breakable}
 \tcbuselibrary{most}
+\RequirePackage{needspace}
 
 \geometry{a4paper,centering,scale=0.8}
 \raggedbottom
 \setlength{\parindent}{0em}
 \numberwithin{equation}{section}
+
+% Keep section headings with the beginning of their content.
+\AddToHook{cmd/section/before}{\Needspace{0.72\textheight}}
+\AddToHook{cmd/subsection/before}{\Needspace{0.45\textheight}}
 
 % Custom colors.
 \definecolor{primaryTeal}{RGB}{40,137,124}

@@ -1,0 +1,252 @@
+\chapter{Convergence and Limit Theorems}
+
+\section{Modes of Convergence}
+
+\begin{definitionbox}
+    Let $(\Omega, \mathcal{F}, \mu)$ be a measure space, and let
+    $\xi_1, \xi_2, \ldots$ and $\xi$ be measurable functions\footnote{$\Omega \rightarrow \RR$} on $\Omega$.
+    We define the following modes of convergence:
+    \begin{enumerate}[label=(\alph*)]
+        \item $\xi_n$ converges to $\xi$ \emph{$\mu$-almost everywhere} if
+        $$\mu\left(\left\{\omega \in \Omega :
+        \lim_{n\to\infty}\xi_n(\omega)=\xi(\omega)\right\}^{c}\right)=0.$$
+        When $\mu$ is a probability measure, $\mu$-almost everywhere
+        convergence is also called \emph{almost sure convergence}.
+
+        \item $\xi_n$ converges to $\xi$ \emph{in measure} if, for every
+        $\varepsilon>0$,
+        $$\mu\left(\left\{\omega\in\Omega:
+        |\xi_n(\omega)-\xi(\omega)|>\varepsilon\right\}\right)
+        \longrightarrow 0.$$
+        When $\mu$ is a probability measure, convergence in measure is also
+        called \emph{convergence in probability}.
+
+        \item Let $1\leq p<\infty$. We say that $\xi_n$ converges to $\xi$
+        \emph{in $L^p(\mu)$} if $\xi_n,\xi\in L^p(\mu)$ and
+        $$\|\xi_n-\xi\|_{L^p(\mu)}
+        =\left(\int_{\Omega}|\xi_n-\xi|^p\mu(\dd\omega)\right)^{1/p}
+        \longrightarrow 0.$$
+
+        \item We say that $\xi_n$ converges to $\xi$ \emph{in
+        $L^\infty(\mu)$} if $\xi_n,\xi\in L^\infty(\mu)$ and
+        $$\|\xi_n-\xi\|_{L^\infty(\mu)}
+        =\operatorname*{ess\,sup}_{\omega\in\Omega}
+        |\xi_n(\omega)-\xi(\omega)|
+        \longrightarrow 0.$$
+    \end{enumerate}
+\end{definitionbox}
+\begin{remarkbox}
+    When $\mu$ is a probability measure,
+    \begin{itemize}
+        \item (a) $\Rightarrow$ (b), (c) $\Rightarrow$ (b);
+        \item (b) $\Rightarrow$ a subsequence of (a) (Riesz theorem).
+    \end{itemize}
+\end{remarkbox}
+
+\begin{definitionbox}[Convergence in distribution]
+    Let $\xi_1,\xi_2,\ldots$ and $\xi$ be real-valued random variables.
+    Denote their distribution functions by
+    $$F_n(x)=\PP(\xi_n\leq x),\qquad
+    F(x)=\PP(\xi\leq x),\qquad x\in\RR.$$
+    We say that $\xi_n$ \emph{converges in distribution} (or
+    \emph{in law}) to $\xi$, and write
+    $$\xi_n\Rightarrow\xi,$$
+    if
+    $$\lim_{n\to\infty}F_n(x)=F(x)$$
+    for every continuity point $x$ of $F$.
+    This is also called \emph{weak convergence}.
+\end{definitionbox}
+
+\section{Laws of Large Numbers}
+
+\subsection{Weak Law of Large Numbers}
+
+\begin{theorembox}[Weak law of large numbers]
+    Let $X_1, X_2, \ldots$ be independent and identically distributed random variables with $\EE(X_i) = \mu \in \RR$ for every $i = 1, 2, \ldots$. Then
+    $$\frac{1}{n}\sum_{i=1}^{n} X_i \longrightarrow \mu$$
+    in probability as $n \to \infty$.
+\end{theorembox}
+\begin{proofbox}
+    Let $\overline{X}_n=n^{-1}\sum_{i=1}^{n}X_i$. For $M>0$, set
+    $$Y_i=X_i\mathbbm{1}_{\{|X_i|\leq M\}},\qquad
+    \overline{Y}_n=\frac{1}{n}\sum_{i=1}^{n}Y_i,\qquad
+    a_M=\EE\left(|X_1|\mathbbm{1}_{\{|X_1|>M\}}\right).$$
+    Since $\EE(|X_1|)<\infty$, dominated convergence gives
+    $a_M\to0$ as $M\to\infty$. Also,
+    $$\EE(|\overline{X}_n-\overline{Y}_n|)\leq a_M,
+    \qquad |\EE(Y_1)-\mu|\leq a_M.$$
+    The $Y_i$ are independent and identically distributed with
+    $|Y_i|\leq M$. Thus, by Cauchy--Schwarz and independence,
+    $$\EE\left(|\overline{Y}_n-\EE(Y_1)|\right)
+    \leq \sqrt{\Var(\overline{Y}_n)}
+    =\sqrt{\frac{\Var(Y_1)}{n}}\leq\frac{M}{\sqrt{n}}.$$
+    Combining these estimates by the triangle inequality yields
+    $$\EE(|\overline{X}_n-\mu|)\leq 2a_M+\frac{M}{\sqrt{n}}.$$
+    First letting $n\to\infty$ with $M$ fixed and then letting
+    $M\to\infty$, we obtain $\EE(|\overline{X}_n-\mu|)\to0$.
+    Finally, apply Markov's inequality \eqref{eq:markov} to the nonnegative random
+    variable $Z=|\overline{X}_n-\mu|$ with threshold
+    $\delta=\varepsilon$. For every $\varepsilon>0$,
+    $$\PP(|\overline{X}_n-\mu|>\varepsilon)
+    \leq\frac{\EE(|\overline{X}_n-\mu|)}{\varepsilon}
+    \longrightarrow0.$$
+\end{proofbox}
+
+\begin{remarkbox}
+    Under the additional assumption $\Var(X_1)=\sigma^2<\infty$,
+    there is a shorter proof. Let
+    $$\overline{X}_n=\frac{1}{n}\sum_{i=1}^{n}X_i.$$
+    By independence and identical distribution,
+    $$\EE(\overline{X}_n)=\mu,\qquad
+    \Var(\overline{X}_n)=\frac{1}{n^2}\sum_{i=1}^{n}\Var(X_i)
+    =\frac{\sigma^2}{n}.$$
+    Thus, by Chebyshev's inequality \eqref{eq:chebyshev}, for every $\varepsilon>0$,
+    $$\PP(|\overline{X}_n-\mu|>\varepsilon)
+    \leq \frac{\Var(\overline{X}_n)}{\varepsilon^2}
+    =\frac{\sigma^2}{n\varepsilon^2}\longrightarrow0.$$
+    This proves the weak law in the finite-variance case.
+\end{remarkbox}
+
+\subsection{Strong Law of Large Numbers}
+
+\begin{theorembox}[Dominated convergence theorem]\label{thm:dominated-convergence}
+    Let $Z_n$ and $Z$ be random variables such that $Z_n\to Z$ almost
+    surely and $|Z_n|\leq W$ almost surely for some random variable
+    $W$ with $\EE(W)<\infty$. Then
+    $$\EE(Z_n)\longrightarrow\EE(Z).$$
+\end{theorembox}
+
+\begin{lemmabox}[Cesaro's lemma]\label{lem:cesaro}
+    If $a_n\to a$, then
+    $$\frac{1}{n}\sum_{k=1}^{n}a_k\longrightarrow a.$$
+\end{lemmabox}
+\begin{proofbox}
+    Write
+    $$\frac{1}{n}\sum_{k=1}^{n}a_k-a
+    =\frac{1}{n}\sum_{k=1}^{n}(a_k-a).$$
+    Given $\varepsilon>0$, choose $N$ such that
+    $|a_k-a|<\varepsilon$ for $k\geq N$. The first $N-1$ terms
+    divided by $n$ tend to zero, while the remaining terms have
+    absolute value at most $\varepsilon$. Hence the limit is zero.
+\end{proofbox}
+
+\begin{propositionbox}[Kolmogorov's maximal inequality]
+    \label{prop:kolmogorov-maximal}
+    Let $Y_1,\ldots,Y_n$ be independent random variables with
+    $\EE(Y_i)=0$ and $\Var(Y_i)<\infty$. Put
+    $$S_k=\sum_{i=1}^{k}Y_i.$$
+    Then, for every $\lambda>0$,
+    $$\PP\left(\max_{1\leq k\leq n}|S_k|\geq\lambda\right)
+    \leq\frac{\Var(S_n)}{\lambda^2}.$$
+\end{propositionbox}
+\begin{proofbox}
+    Let
+    $$A_k=\left\{|S_j|<\lambda\text{ for }j<k,\ |S_k|\geq\lambda\right\},
+    \qquad 1\leq k\leq n.$$
+    The events $A_1,\ldots,A_n$ are disjoint. Since
+    $S_n=S_k+(S_n-S_k)$ and $S_n-S_k$ is independent of
+    $\mathcal{F}_k=\sigma(Y_1,\ldots,Y_k)$ with mean zero,
+    $$\EE\left(S_n^2\mathbbm{1}_{A_k}\right)
+    =\EE\left(S_k^2\mathbbm{1}_{A_k}\right)
+    +\EE\left((S_n-S_k)^2\mathbbm{1}_{A_k}\right)
+    \geq\lambda^2\PP(A_k).$$
+    Summing over $k$ gives
+    $$\Var(S_n)=\EE(S_n^2)
+    \geq\lambda^2\PP\left(\max_{1\leq k\leq n}|S_k|\geq\lambda\right).$$
+\end{proofbox}
+
+\begin{propositionbox}[Kolmogorov's convergence criterion]
+    \label{prop:kolmogorov-convergence}
+    Let $Z_1,Z_2,\ldots$ be independent random variables with
+    $\EE(Z_n)=0$ and $\sum_{n=1}^{\infty}\Var(Z_n)<\infty$.
+    Then the series $\sum_{n=1}^{\infty}Z_n$ converges almost surely.
+\end{propositionbox}
+\begin{proofbox}
+    For $m\leq k\leq n$, apply Kolmogorov's maximal inequality,
+    Proposition \ref{prop:kolmogorov-maximal}, to
+    $Z_m,\ldots,Z_k$:
+    $$\PP\left(\max_{m\leq k\leq n}
+    \left|\sum_{j=m}^{k}Z_j\right|>\varepsilon\right)
+    \leq \frac{1}{\varepsilon^2}\sum_{j=m}^{n}\Var(Z_j).$$
+    Choose integers $n_r$ so that
+    $$\sum_{j=n_r}^{\infty}\Var(Z_j)\leq 2^{-r}.$$
+    The preceding inequality and Borel--Cantelli, Proposition
+    \ref{prop:borel-cantelli}, imply that, almost
+    surely, for all sufficiently large $r$,
+    $$\max_{n_r\leq k\leq n_{r+1}}
+    \left|\sum_{j=n_r}^{k}Z_j\right|\leq\varepsilon.$$
+    Since the tail variances tend to zero, the same argument for
+    $\varepsilon=1,1/2,1/3,\ldots$ shows that the partial sums are
+    almost surely Cauchy.
+\end{proofbox}
+
+\begin{lemmabox}[Kronecker's lemma]\label{lem:kronecker}
+    If $\sum_{n=1}^{\infty}a_n/n$ converges, then
+    $$\frac{1}{n}\sum_{k=1}^{n}a_k\longrightarrow0.$$
+\end{lemmabox}
+\begin{proofbox}
+    Let $b_n=\sum_{k=1}^{n}a_k/k$. Since $b_n$ converges,
+    summation by parts gives
+    $$\frac{1}{n}\sum_{k=1}^{n}a_k
+    =b_n-\frac{1}{n}\sum_{k=1}^{n-1}b_k\longrightarrow0.$$
+\end{proofbox}
+
+\begin{theorembox}[Strong law of large numbers]
+    Let $X_1, X_2, \ldots$ be independent and identically distributed random variables with
+    $$\EE(|X_i|)<\infty,\qquad \mu=\EE(X_i)$$
+    for every $i=1,2,\ldots$. Then
+    $$\frac{1}{n}\sum_{i=1}^{n} X_i \longrightarrow \mu$$
+    almost surely as $n \to \infty$.
+\end{theorembox}
+\begin{proofbox}
+    Replacing $X_i$ by $X_i-\mu$, it suffices to assume $\mu=0$.
+    Write $Y_i=X_i\mathbbm{1}_{\{|X_i|\leq i\}}$. Since
+    $\EE(|X_1|)<\infty$,
+    $$\sum_{i=1}^{\infty}\PP(X_i\neq Y_i)
+    =\sum_{i=1}^{\infty}\PP(|X_1|>i)<\infty.$$
+    The first Borel--Cantelli lemma, Proposition
+    \ref{prop:borel-cantelli}, therefore gives
+    $X_i=Y_i$ eventually almost surely.
+
+    Put $Z_i=Y_i-\EE(Y_i)$. The $Z_i$ are independent and centered,
+    and
+    $$\begin{aligned}
+    \sum_{i=1}^{\infty}\frac{\Var(Z_i)}{i^2}
+    &\leq\sum_{i=1}^{\infty}
+    \frac{\EE\left(X_1^2\mathbbm{1}_{\{|X_1|\leq i\}}\right)}{i^2}\\
+    &=\EE\left[X_1^2\sum_{i\geq |X_1|}\frac{1}{i^2}\right]
+    <\infty.
+    \end{aligned}$$
+    The last inequality follows from
+    $\sum_{i\geq t}i^{-2}\leq C/t$ for $t\geq1$, while
+    $X_1^2\leq |X_1|$ when $|X_1|<1$.
+
+    Applying Kolmogorov's convergence criterion, Proposition
+    \ref{prop:kolmogorov-convergence}, to $Z_i/i$ gives
+    $$\sum_{i=1}^{\infty}\frac{Z_i}{i}
+    \quad\text{converges almost surely}.$$
+    Kronecker's lemma, Lemma \ref{lem:kronecker}, then yields
+    $$\frac{1}{n}\sum_{i=1}^{n}
+    \bigl(Y_i-\EE(Y_i)\bigr)\longrightarrow0
+    \quad\text{almost surely}.$$
+    Moreover, the dominated convergence theorem,
+    Theorem \ref{thm:dominated-convergence}, gives
+    $\EE(Y_i)=\EE(X_1\mathbbm{1}_{\{|X_1|\leq i\}})\to0$.
+    Cesaro's lemma, Lemma \ref{lem:cesaro}, therefore implies
+    $$\frac{1}{n}\sum_{i=1}^{n}\EE(Y_i)\longrightarrow0.$$
+    Since $X_i=Y_i$ eventually almost surely,
+    $$\frac{1}{n}\sum_{i=1}^{n}X_i
+    =\frac{1}{n}\sum_{i=1}^{n}
+    \bigl(Y_i-\EE(Y_i)\bigr)
+    +\frac{1}{n}\sum_{i=1}^{n}\EE(Y_i)+o(1)
+    \longrightarrow0$$
+    almost surely.
+\end{proofbox}
+
+\section{Central Limit Theorem}
+
+\begin{theorembox}[Central limit theorem]
+    Let $X_1, X_2, \ldots$ be independent and identically distributed random variables with $\EE(X_i) = \mu$ and $\Var(X_i) = \sigma^2 < \infty$. Then
+    $$\frac{1}{\sqrt{n}}\sum_{i=1}^{n} (X_i - \mu) \longrightarrow \mathcal{N}(0, \sigma^2)$$
+    as $n \to \infty$.
+\end{theorembox}

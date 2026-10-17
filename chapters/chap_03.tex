@@ -107,17 +107,6 @@
 
 \subsection{Minkowski Inequality}
 
-\begin{remarkbox}
-    For random variables $X,Y\in L^p(\PP)$ with $1\leq p\leq\infty$,
-    Minkowski's inequality takes the familiar form
-    $$\|X+Y\|_p\leq\|X\|_p+\|Y\|_p.$$
-    Indeed, take $T=\{1,2\}$ with counting
-    measure and slices $f(1,\cdot)=X$, $f(2,\cdot)=Y$. Then
-    $$\|X+Y\|_p
-    \leq\bigl\||X|+|Y|\bigr\|_p
-    \leq\|X\|_p+\|Y\|_p.$$
-\end{remarkbox}
-
 \begin{theorembox}[Minkowski's integral inequality]
     Let $(X,\mathcal{X},\mu)$ and $(T,\mathcal{T},\nu)$ be
     $\sigma$-finite measure spaces, and let
@@ -166,6 +155,17 @@
     $$H(x)\leq A_\infty\qquad\text{for $\mu$-almost every $x$},$$
     and taking the essential supremum over $x$ yields the desired inequality.
 \end{proofbox}
+
+\begin{remarkbox}
+    For random variables $X,Y\in L^p(\PP)$ with $1\leq p\leq\infty$,
+    Minkowski's inequality takes the familiar form
+    $$\|X+Y\|_p\leq\|X\|_p+\|Y\|_p.$$
+    Indeed, take $T=\{1,2\}$ with counting
+    measure and slices $f(1,\cdot)=X$, $f(2,\cdot)=Y$. Then
+    $$\|X+Y\|_p
+    \leq\bigl\||X|+|Y|\bigr\|_p
+    \leq\|X\|_p+\|Y\|_p.$$
+\end{remarkbox}
 
 \subsection{Markov and Chebyshev Inequalities}
 

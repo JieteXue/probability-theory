@@ -71,6 +71,25 @@
 
 \section{Moment Inequalities}
 
+\begin{definitionbox}[$L^p$ norms]
+    For a measurable function $g$ on $(S,\mathcal{S},\mu)$, write
+    $$\|g\|_{L^p(\mu)}
+    =\left(\int_S |g|^p\,\dd\mu\right)^{1/p},
+    \qquad 1\leq p<\infty.$$
+    At $p=\infty$, use the \emph{essential supremum}:
+    $$\|g\|_{L^\infty(\mu)}
+    =\inf\left\{M\geq0:\mu(\{|g|>M\})=0\right\},$$
+    with $\inf\varnothing=\infty$. This is the smallest upper bound
+    on $|g|$ that holds $\mu$-almost everywhere.
+
+    For a random variable $X$, abbreviate
+    $$\|X\|_p=\|X\|_{L^p(\PP)}
+    =\left(\EE(|X|^p)\right)^{1/p},\qquad 1\leq p<\infty,$$
+    and $\|X\|_\infty=\|X\|_{L^\infty(\PP)}$.
+    The space $L^p(\mu)$ consists of functions with finite $L^p$ norm,
+    identified up to equality $\mu$-almost everywhere.
+\end{definitionbox}
+
 \subsection{Jensen and H\"older Inequalities}
 
 \begin{remarkbox}
@@ -81,29 +100,24 @@
 \end{remarkbox}
 
 \begin{theorembox}[H\"older]
-    If $p,q \in [1,+\infty]$ with $\frac{1}{p} + \frac{1}{q} = 1$, then
-    $$\EE(|XY|) \leq \left(\EE(|X|^p)\right)^{\frac{1}{p}} \left(\EE(|Y|^q)\right)^{\frac{1}{q}}.$$
+    If $p,q \in [1,+\infty]$ with $\frac{1}{p} + \frac{1}{q} = 1$,
+    $X\in L^p(\PP)$, and $Y\in L^q(\PP)$, then
+    $$\|XY\|_1 \leq \|X\|_p\|Y\|_q.$$
 \end{theorembox}
 
 \subsection{Minkowski Inequality}
 
 \begin{theorembox}[Minkowski]
-    Let $(X,\mathcal{X},\mu)$ and $(T,\mathcal{T},\nu)$ be measure spaces, and let
+    Let $(X,\mathcal{X},\mu)$ and $(T,\mathcal{T},\nu)$ be
+    $\sigma$-finite measure spaces, and let
     $f : T \times X \to \RR$ be measurable. If $1 \leq p \leq \infty$, then
-    $$\left(\int_{X} \left(\int_{T} |f(t,x)| \nu(\dd t)\right)^p \mu(\dd x)\right)^{1/p}
-    \leq \int_{T} \left(\int_{X} |f(t,x)|^p \mu(\dd x)\right)^{1/p} \nu(\dd t),$$
-    where the usual essential supremum interpretation is used when $p=\infty$.
-    Here, the \emph{essential supremum} of a measurable function $g$ is
-    defined by
-    $$\operatorname*{ess\,sup}_{x\in X}|g(x)|
-    =\inf\left\{M\geq 0:
-    \mu\left(\left\{x\in X:|g(x)|>M\right\}\right)=0\right\}.$$
-    Thus, the essential supremum is the smallest upper bound that holds
-    $\mu$-almost everywhere.
+    $$\left\|\int_T |f(t,\cdot)|\,\nu(\dd t)\right\|_{L^p(\mu)}
+    \leq \int_T \|f(t,\cdot)\|_{L^p(\mu)}\,\nu(\dd t).$$
 \end{theorembox}
 \begin{proofbox}
-    Write
-    $$H(x) = \int_{T} |f(t,x)|\nu(\dd t).$$
+    Write $H(x)=\int_T |f(t,x)|\,\nu(\dd t)$ and
+    $A_p=\int_T\|f(t,\cdot)\|_{L^p(\mu)}\,\nu(\dd t)$.
+    If $A_p=\infty$, there is nothing to prove, so assume $A_p<\infty$.
     The case $p=1$ follows immediately from Tonelli's theorem:
     $$\begin{aligned}
         \int_{X} H(x)\mu(\dd x)
@@ -112,26 +126,33 @@
     \end{aligned}$$
 
     Suppose now that $1<p<\infty$, and let $q$ be the conjugate exponent,
-    so that $\frac{1}{p}+\frac{1}{q}=1$. If $\|H\|_{L^p(\mu)}=0$, the
-    desired inequality is trivial. Otherwise, Tonelli's theorem and
-    H\"older's inequality give
+    so that $\frac{1}{p}+\frac{1}{q}=1$.
+    First suppose $0<\|H\|_{L^p(\mu)}<\infty$.
+    Tonelli's theorem and H\"older's inequality give
     $$\begin{aligned}
         \|H\|_{L^p(\mu)}^p
         &= \int_{X} H(x)^{p-1}H(x)\mu(\dd x) \\
         &= \int_{T}\int_{X}|f(t,x)|H(x)^{p-1}\mu(\dd x)\nu(\dd t) \\
-        &\leq \int_{T}
-        \left(\int_{X}|f(t,x)|^p\mu(\dd x)\right)^{1/p}
-        \left(\int_{X}H(x)^{(p-1)q}\mu(\dd x)\right)^{1/q}
-        \nu(\dd t) \\
-        &= \|H\|_{L^p(\mu)}
-        \int_{T}\left(\int_{X}|f(t,x)|^p\mu(\dd x)\right)^{1/p}\nu(\dd t).
+        &\leq \int_T \|f(t,\cdot)\|_{L^p(\mu)}
+        \|H^{p-1}\|_{L^q(\mu)}\,\nu(\dd t) \\
+        &= A_p\|H\|_{L^p(\mu)}^{p-1}.
     \end{aligned}$$
-    Dividing by $\|H\|_{L^p(\mu)}$ proves the result for $1<p<\infty$.
+    Dividing by $\|H\|_{L^p(\mu)}^{p-1}$ gives $\|H\|_{L^p(\mu)}\leq A_p$.
+    The case $\|H\|_{L^p(\mu)}=0$ is immediate.
+
+    To avoid assuming $H\in L^p(\mu)$, choose $E_n\uparrow X$ with
+    $\mu(E_n)<\infty$, and set $H_n=(H\wedge n)\mathbbm{1}_{E_n}$.
+    Since $H_n\leq H$, the same estimate gives
+    $$\|H_n\|_{L^p(\mu)}^p
+    \leq \int_X H_n^{p-1}H\,\dd\mu
+    \leq A_p\|H_n\|_{L^p(\mu)}^{p-1}.$$
+    Thus $\|H_n\|_{L^p(\mu)}\leq A_p$, and monotone convergence proves
+    the claim.
 
     Finally, when $p=\infty$, for $\nu$-almost every $t$,
-    $$|f(t,x)|\leq \operatorname*{ess\,sup}_{y\in X}|f(t,y)|$$
+    $$|f(t,x)|\leq \|f(t,\cdot)\|_{L^\infty(\mu)}$$
     for $\mu$-almost every $x$. Hence
-    $$H(x)\leq \int_{T}\operatorname*{ess\,sup}_{y\in X}|f(t,y)|\nu(\dd t),$$
+    $$H(x)\leq A_\infty\qquad\text{for $\mu$-almost every $x$},$$
     and taking the essential supremum over $x$ yields the desired inequality.
 \end{proofbox}
 
